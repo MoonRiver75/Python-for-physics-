@@ -1,0 +1,136 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/MoonRiver75/Python-for-physics-/blob/main/Example%20of%20loading%20the%20data%20in%20phython%20\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "**Again, we'll load some libraries**"
+      ],
+      "metadata": {
+        "id": "0mjBZ5lXbbMy"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import matplotlib.pyplot as plt\n",
+        "import numpy as np"
+      ],
+      "metadata": {
+        "id": "fabLFFgYQ1FC"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "**And connect this notebook to our google drive**"
+      ],
+      "metadata": {
+        "id": "_A9fgIVeXchk"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from google.colab import drive\n",
+        "drive.mount('/content/drive')\n",
+        "!mkdir -p \"/content/drive/My Drive/Python4Physics\"\n",
+        "filepath=\"drive/My Drive/Python4Physics/\""
+      ],
+      "metadata": {
+        "id": "Ws2l_xGHXb-J"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "**In this module, we will load the data generated in ex_2_gauss.ipynb\n",
+        "and plot it to make sure we get the same result**"
+      ],
+      "metadata": {
+        "id": "TctvvsdmfNcl"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "**First, we'll load the file 'data.txt' which we made in the last example**"
+      ],
+      "metadata": {
+        "id": "o4vb-YGmfSYg"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "filename='data.txt'\n",
+        "m0s = np.loadtxt(filepath+filename)"
+      ],
+      "metadata": {
+        "id": "05YpGEwkfLiR"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [],
+      "metadata": {
+        "id": "20b0n4Ddfa1p"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "Nbins=20\n",
+        "plt.hist(m0s, bins=Nbins)\n",
+        "\n",
+        "plt.ylabel('Number of points',size=20)\n",
+        "plt.xlabel('m0',size=20, position=(1,1.2))\n",
+        "plt.savefig(filepath+'example_gauss_check.jpg')"
+      ],
+      "metadata": {
+        "id": "cwptYG_WfZ0q"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "J0lkXoNpgDwz"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
