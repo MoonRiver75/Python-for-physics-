@@ -1,0 +1,267 @@
+{
+  "nbformat": 4,
+  "nbformat_minor": 0,
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "name": "python3",
+      "display_name": "Python 3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/MoonRiver75/Python-for-physics-/blob/main/Gauss%20Problem%20and%20solutions%20\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "**Again, we'll load some libraries**"
+      ],
+      "metadata": {
+        "id": "0mjBZ5lXbbMy"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import matplotlib.pyplot as plt\n",
+        "import numpy as np"
+      ],
+      "metadata": {
+        "id": "fabLFFgYQ1FC"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "**And connect this notebook to our google drive**"
+      ],
+      "metadata": {
+        "id": "_A9fgIVeXchk"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from google.colab import drive\n",
+        "drive.mount('/content/drive')\n",
+        "!mkdir -p \"/content/drive/My Drive/Python4Physics\"\n",
+        "filepath=\"drive/My Drive/Python4Physics/\""
+      ],
+      "metadata": {
+        "id": "Ws2l_xGHXb-J"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "**In this module, we will generate distribution of points\n",
+        "that are centered about a mean value of m0,\n",
+        "with some deviation described by dm0.\n",
+        "The points will distributed according to a Gaussian distribution,\n",
+        "also known as normal distribution**\n",
+        "https://en.wikipedia.org/wiki/Normal_distribution"
+      ],
+      "metadata": {
+        "id": "i-ZOB1imQ2Z4"
+      }
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "**first, let's define some basic functions**"
+      ],
+      "metadata": {
+        "id": "KM8tZ_FWQ6ZL"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "pi= np.pi\n",
+        "def sqrt(x): return np.sqrt(x)\n",
+        "def exp(x): return np.exp(x)\n",
+        "\n",
+        "\"first, let's define some basic functions\"\n",
+        "def f_gaus(x,mu,sig):\n",
+        "\tamp = 1.0/sqrt(2.0 * pi * pow(sig,2))\n",
+        "\targ = pow(x-mu,2)/( 2.0 * pow(sig,2) )\n",
+        "\treturn amp * exp(-arg)\n",
+        "\n",
+        "m0, dm0 = 1, .01"
+      ],
+      "metadata": {
+        "id": "ibw1JyH3Q78N"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "**Python has many built in functions,\n",
+        "including a normal distributions**\n",
+        "https://docs.scipy.org/doc/numpy/reference/generated/numpy.random.normal.html"
+      ],
+      "metadata": {
+        "id": "uPe3FzGqQ9fs"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "Npoints = 1000\n",
+        "m0s = np.random.normal(m0, dm0, Npoints)"
+      ],
+      "metadata": {
+        "id": "gNFNv_-WQ_iI"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "**here we save the generated points into a text file using**\n",
+        "https://docs.scipy.org/doc/numpy/reference/generated/numpy.savetxt.html"
+      ],
+      "metadata": {
+        "id": "P92xhSXLRCEf"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "filename='data.txt'\n",
+        "np.savetxt(filepath+filename,m0s)"
+      ],
+      "metadata": {
+        "id": "y-XUuENRRBZb"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "print(filepath+filename)"
+      ],
+      "metadata": {
+        "id": "47UyTkB2dDdJ"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "**we will seperate the number of elements having a given 'x'.\n",
+        "We will do this by separating them into Nbins groups**"
+      ],
+      "metadata": {
+        "id": "Jfu0fp8PRE7N"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "Nbins = 25\n",
+        "hist, bin_edges = np.histogram(m0s,bins=Nbins)"
+      ],
+      "metadata": {
+        "id": "YAmpC77yRGCb"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "**to plot it, we use the hist function:**\n",
+        "\thttps://docs.scipy.org/doc/numpy/reference/generated/numpy.histogram.html?highlight=histogram#numpy.histogram"
+      ],
+      "metadata": {
+        "id": "_adQKaSuRHq0"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "plt.hist(m0s, bins=Nbins)\n",
+        "\n",
+        "x=np.arange(m0-4*dm0,m0+4*dm0,dm0/100.)\n",
+        "\n",
+        "plt.ylabel('Number of points',size=20)\n",
+        "plt.xlabel('m0',size=20, position=(1,1.2))"
+      ],
+      "metadata": {
+        "id": "sq-IU8wkRJHs"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "markdown",
+      "source": [
+        "**here we will add a normalized Gaussian distribution\n",
+        "so that its peak matches the histogram peak. Then we'll save it to the 'Python4Physics' folder as usual**"
+      ],
+      "metadata": {
+        "id": "xX04Ru__RKjd"
+      }
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "plt.hist(m0s, bins=Nbins)\n",
+        "x=np.arange(m0-4*dm0,m0+4*dm0,dm0/100.)\n",
+        "plt.ylabel('Number of points',size=20)\n",
+        "plt.xlabel('m0',size=20, position=(1,1.2))\n",
+        "#################\n",
+        "\n",
+        "tmp = f_gaus(x,m0,dm0)\n",
+        "tmp = tmp * max(hist) / max(tmp)\n",
+        "\n",
+        "plt.plot(x,tmp ,color='r')\n",
+        "\n",
+        "print(\"hist\",hist)\n",
+        "\n",
+        "\n",
+        "plt.ylabel('Number of points',size=20)\n",
+        "plt.xlabel('m0',size=20, position=(1,1.2))\n",
+        "plt.savefig(filepath+'example_gauss.jpg')"
+      ],
+      "metadata": {
+        "id": "Bsw-RBo9RL_K"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "DJuKw81UR3r1"
+      },
+      "execution_count": null,
+      "outputs": []
+    }
+  ]
+}
